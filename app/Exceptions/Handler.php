@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -29,7 +32,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -40,12 +43,39 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        return parent::render($request, $exception);
+        if ($request->wantsJson() && !($e instanceof ValidationException)) {
+            $message = 'An error has occurred on our server. We have already received notification about it and will soon begin to work on its solution.';
+            $code = 500;
+            if ($e instanceof HttpException) {
+                $message = (string)$e->getMessage() ?: 'An error has occurred.';
+                $code = $e->getStatusCode();
+            } else if ($e instanceof ModelNotFoundException) {
+                $message = 'Requested information not found.';
+                $code = 404;
+            }
+
+            $response = [
+                'message' => $message,
+                'code' => $code,
+            ];
+
+            if (config('app.debug') == true) {
+                $response['debug'] = [
+                    'exception' => get_class($e),
+                    'trace' => $e->getTrace(),
+                    'message' => $e->getMessage()
+                ];
+            }
+
+            return response()->json($response, $response['code']);
+        }
+
+        return parent::render($request, $e);
     }
 }
