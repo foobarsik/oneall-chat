@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Entities\Bot;
 use App\Exceptions\InvalidAuthTokenException;
+use App\Factories\MessengerFactory;
 use App\Http\Controllers\Controller;
-use App\Http\Services\Telegram\Client as Telegram;
-use App\Http\Services\Viber\Client as Viber;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -26,14 +25,10 @@ class BotController extends Controller
             'type' => ['required', Rule::in(Bot::TYPES)],
         ]);
 
-        if ($request->type === Bot::TYPE_TELEGRAM) {
-            $bot = new Telegram($request->token);
-        } else {
-            $bot = new Viber($request->token);
-        }
+        $messenger = MessengerFactory::create($request->type, $request->token);
 
         try {
-            $bot->setWebhook(config('app.url') . '/api/v1/' . $request->type . '/callback/' . $request->token);
+            $messenger->setWebhook(config('app.url') . '/api/v1/' . $request->type . '/callback/' . $request->token);
         } catch (InvalidAuthTokenException $e) {
             throw ValidationException::withMessages(['token' => ['Provided token is invalid']]);
         }
