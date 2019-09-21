@@ -2,7 +2,9 @@
 
 namespace App\Dto;
 
-class TelegramMessage
+use App\Contracts\Message;
+
+class TelegramMessage implements Message
 {
     private $id;
     private $text;

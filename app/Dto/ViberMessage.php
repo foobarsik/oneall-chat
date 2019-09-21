@@ -2,7 +2,9 @@
 
 namespace App\Dto;
 
-class ViberMessage
+use App\Contracts\Message;
+
+class ViberMessage implements Message
 {
     private $id;
     private $text;
