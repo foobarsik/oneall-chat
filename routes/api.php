@@ -24,6 +24,9 @@ Route::group(
     ],
     function () {
         Route::resource('bots', 'BotController', ['except' => ['create', 'edit', 'update']]);
-        Route::post('/viber/callback/{token}', 'ViberController@handleCallback');
-        Route::post('/telegram/callback/{token}', 'TelegramController@handleCallback');
+        Route::get('chats', 'ChatController@index');
+        Route::get('chats/{id}/messages', 'ChatMessageController@index');
+        Route::post('chats/{id}/messages', 'ChatMessageController@store');
+        Route::post('viber/callback/{token}', 'ViberController@handleCallback');
+        Route::post('telegram/callback/{token}', 'TelegramController@handleCallback');
 });

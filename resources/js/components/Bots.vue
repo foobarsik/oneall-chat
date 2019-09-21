@@ -1,49 +1,43 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Bots</div>
-                    <div class="card-body">
-                        <table v-if="bots" class="table">
-                            <tbody>
-                            <tr v-for="(bot, index) in bots" :key=index>
-                                <td>{{ bot.name }}</td>
-                                <td>{{ bot.type }}</td>
-                                <td>
-                                    <button @click="deleteBot(bot.id, index)" type="button" class="close btn-delete"
-                                            title="Delete bot" aria-label="Delete bot">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <form v-on:submit.prevent="addBot">
-                            <input type="text" class="form-control" name="name" required placeholder="Name"
-                                   v-model="bot.name">
-                            <ul class="validity">
-                                <li v-for="error in errors.name" class="text-danger">
-                                    {{ error }}
-                                </li>
-                            </ul>
-                            <input type="text" class="form-control" name="token" required placeholder="Token"
-                                   v-model="bot.token">
-                            <ul class="validity">
-                                <li v-for="error in errors.token" class="text-danger">
-                                    {{ error }}
-                                </li>
-                            </ul>
-                            <select v-model="bot.type" required class="form-control">
-                                <option disabled value="">Choose messenger..</option>
-                                <option value="telegram">Telegram</option>
-                                <option value="viber">Viber</option>
-                            </select>
-                            <button type="submit" class="btn btn-primary">Add bot</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">Bots</div>
+        <div class="card-body">
+            <table v-if="bots" class="table">
+                <tbody>
+                <tr v-for="(bot, index) in bots" :key=index>
+                    <td>{{ bot.name }}</td>
+                    <td>{{ bot.type }}</td>
+                    <td>
+                        <button @click="deleteBot(bot.id, index)" type="button" class="close btn-delete"
+                                title="Delete bot" aria-label="Delete bot">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <form v-on:submit.prevent="addBot">
+                <input type="text" class="form-control" name="name" required placeholder="Name"
+                       v-model="bot.name">
+                <ul class="validity">
+                    <li v-for="error in errors.name" class="text-danger">
+                        {{ error }}
+                    </li>
+                </ul>
+                <input type="text" class="form-control" name="token" required placeholder="Token"
+                       v-model="bot.token">
+                <ul class="validity">
+                    <li v-for="error in errors.token" class="text-danger">
+                        {{ error }}
+                    </li>
+                </ul>
+                <select v-model="bot.type" required class="form-control">
+                    <option disabled value="">Choose messenger..</option>
+                    <option value="telegram">Telegram</option>
+                    <option value="viber">Viber</option>
+                </select>
+                <button type="submit" class="btn-primary">Add bot</button>
+            </form>
         </div>
     </div>
 </template>
@@ -112,6 +106,6 @@
     }
 
     .form-control {
-        margin: 10px 0;
+        margin-bottom: 10px;
     }
 </style>

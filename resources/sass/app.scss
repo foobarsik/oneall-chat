@@ -2,6 +2,59 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.form-control {
+    border-radius: 0;
+}
+
+.card {
+    border: none;
+    border-radius: 0;
+}
+
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgb(230, 234, 234);
+    font-weight: bold;
+    border-bottom: 0;
+    border-radius: 0;
+}
+
+.card-header:first-child {
+    border-radius: 0;
+}
+
+.btn-primary {
+    border: none;
+    width: 100%;
+    padding: 10px 0;
+    background: #435f7a;
+    color: #f5f5f5;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 735px) {
+    .btn-primary {
+        float: none;
+        width: 100%;
+        padding: 15px 0;
+    }
+}
+
+.btn-primary:focus {
+    outline: none;
+}
+
+.btn-primary:hover {
+    background: #32465a;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: #32465a;
+    border-color: #32465a;
+    opacity: 0.5;
+    cursor: default;
+}

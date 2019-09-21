@@ -11,4 +11,9 @@ class Bot extends Model
     public const TYPES = [self::TYPE_TELEGRAM, self::TYPE_VIBER];
 
     protected $guarded = ['id'];
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
 }
