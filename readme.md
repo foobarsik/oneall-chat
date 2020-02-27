@@ -1,4 +1,4 @@
-## Notice
+### Notice
 
 You don't talk to other app users, you create Telegram/Viber bots and connect them to this app.  
 Your potential clients write to this bots and you can answer them from this app.
